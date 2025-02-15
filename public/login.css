@@ -1,0 +1,325 @@
+/* Bouton de fermeture */
+/* Importation des polices */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #e0f7ff;
+}
+
+/* Conteneur principal */
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 1000px;
+    height: 800px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Partie Gauche (Image & Overlay) */
+.left {
+    flex: 1;
+    background: url('med1.jpg') no-repeat center center/cover;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 50, 0.5);
+    /* Retirer le flou */
+    backdrop-filter: none; /* Retirer le flou */
+}
+
+.logo {
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    font-size: 32px;
+    color: white;
+    font-style: italic;
+}
+
+/* Partie Droite (Formulaire) */
+.right {
+    flex: 1;
+    padding: 50px;
+    text-align: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Champs de saisie */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #007bff;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.input-field i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.input-field input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* Effet de focus */
+.input-field:focus-within {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Styles pour les erreurs */
+.error {
+    border-color: red !important;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+/* Mot de passe oublié */
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Bouton de connexion */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+/* Séparateur OR */
+.or-divider {
+    margin: 20px 0;
+    color: #666;
+    font-size: 14px;
+    position: relative;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+    width: 45%;
+    height: 1px;
+    background: #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+/* Icônes des réseaux sociaux */
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.social-login a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ddd;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-login a i {
+    font-size: 20px;
+    color: #333;
+}
+
+.social-login a:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Lien d'inscription */
+.register-text {
+    font-size: 14px;
+}
+
+.register-text a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+.error-message {
+    background-color: rgba(255, 0, 0, 0.9); /* Rouge intense */
+    color: white; /* Texte blanc */
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0px 0px 12px rgba(255, 0, 0, 0.6); /* Effet lumineux */
+    margin-top: 5px;
+    animation: fadeIn 0.5s ease-in-out, shake 0.5s;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Effet de vibration */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+
+
+
+
+
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff6666; /* Change la couleur au survol */
+}
+/* Texte en vert + effet d'agrandissement et rotation */
+/* 📌 Conteneur du texte */
+.user-info {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2ecc71; /* Vert éclatant */
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(46, 204, 113, 0.1); /* Légère transparence verte */
+    display: inline-block;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* 🎯 Effet d'agrandissement et de rotation au survol */
+.user-info:hover {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0px 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* 🎨 Mise en valeur du nom utilisateur */
+.user-name {
+    font-weight: bold;
+    color: #27ae60; /* Vert foncé */
+}
+
+/* 🔗 Style pro du lien Déconnexion */
+.logout-link {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #e74c3c; /* Rouge pour contraste */
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+/* 🖍️ Animation soulignement */
+.logout-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 2px;
+    background-color: #e74c3c;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 🎯 Effet au survol du lien */
+.logout-link:hover {
+    color: #c0392b;
+}
+
+.logout-link:hover::after {
+    transform: scaleX(1);
+}

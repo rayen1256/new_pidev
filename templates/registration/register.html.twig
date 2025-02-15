@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="overlay"></div>
+            <div class="logo">HealthCare</div>
+        </div>
+
+        <div class="right">
+            <h2 class="title">Créer un compte</h2>
+            <p class="subtitle">Remplissez le formulaire pour commencer</p>
+
+            <form method="post" novalidate>
+
+                {{ form_errors(registrationForm) }}
+
+                {{ form_start(registrationForm) }}
+                  <div class="input-group">
+                    {{ form_label(registrationForm.username, 'Username') }}
+                    <div class="input-field">
+                        {{ form_widget(registrationForm.username) }}
+                    </div>
+                      
+                    {{ form_errors(registrationForm.username) }} <!-- Affichage des erreurs du champ username -->
+                   
+                  </div>
+
+                  <div class="input-group">
+                    {{ form_label(registrationForm.email, 'Email') }}
+                    <div class="input-field">
+                        {{ form_widget(registrationForm.email) }}
+                    </div>
+                    
+                    {{ form_errors(registrationForm.email) }} <!-- Affichage des erreurs du champ email -->
+                    
+                  </div>
+
+                  <div class="input-group">
+                    {{ form_label(registrationForm.plainPassword, 'Password') }}
+                    <div class="input-field">
+                        {{ form_widget(registrationForm.plainPassword) }}
+                    </div>
+                      
+                    {{ form_errors(registrationForm.plainPassword) }} <!-- Affichage des erreurs du champ password -->
+                    
+                  </div>
+
+                  <div class="input-group">
+                    {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions') }}
+                    <label class="checkbox-container">
+                        {{ form_widget(registrationForm.agreeTerms) }}
+                        <span class="checkmark"></span>
+                    </label>
+                     
+                    {{ form_errors(registrationForm.agreeTerms) }} <!-- Affichage des erreurs du champ agreeTerms -->
+                 
+                  </div>
+
+                  <button type="submit" class="btn">Register</button>
+
+                  {% for message in app.flashes('success') %}
+                    <div class="flash-success">{{ message }}</div>
+                  {% endfor %}
+
+                {{ form_end(registrationForm) }}
+            </form>
+        </div>
+    </div>
+</body>
+</html>
