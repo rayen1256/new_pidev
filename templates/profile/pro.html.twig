@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('pro.css') }}">
+     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+
+
+{% block body %}
+    <div class="form-container">
+        <h1>Modifier votre Profil</h1>
+
+        {{ form_start(form) }}
+        
+        <div class="form-group">
+            <label for="{{ form.username.vars.id }}">{{ form_label(form.username) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.username) }}
+            </div>
+            {{ form_errors(form.username) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.telephone.vars.id }}">{{ form_label(form.telephone) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.telephone) }}
+            </div>
+            {{ form_errors(form.telephone) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.age.vars.id }}">{{ form_label(form.age) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.age) }}
+            </div>
+            {{ form_errors(form.age) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.vars.id }}">{{ form_label(form.description) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.description) }}
+            </div>
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.etat.vars.id }}">{{ form_label(form.etat) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.etat) }}
+            </div>
+            {{ form_errors(form.etat) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.dateNaissance.vars.id }}">{{ form_label(form.dateNaissance) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.dateNaissance) }}
+            </div>
+            {{ form_errors(form.dateNaissance) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.status.vars.id }}">{{ form_label(form.status) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.status) }}
+            </div>
+            {{ form_errors(form.status) }}
+        </div>
+         <div class="form-group">
+            <label>Choisir votre position sur la carte :</label>
+            <div id="map"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.latitude.vars.id }}">{{ form_label(form.latitude) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.latitude) }}
+            </div>
+            {{ form_errors(form.latitude) }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.longitude.vars.id }}">{{ form_label(form.longitude) }}</label>
+            <div class="input-wrapper">
+                {{ form_widget(form.longitude) }}
+            </div>
+            {{ form_errors(form.longitude) }}
+        </div>
+      <div class="form-group">
+    <label for="{{ form.profilePicture.vars.id }}" class="form-label">{{ form.profilePicture.vars.label }}</label>
+    {{ form_widget(form.profilePicture, {'attr': {'class': 'form-control', 'id': 'profilePictureInput'}}) }}
+    <small class="form-text text-muted">Téléchargez votre photo de profil.</small>
+</div>
+
+<!-- Ajoutez un conteneur pour afficher la prévisualisation -->
+<div id="profilePicturePreview" class="profile-picture-placeholder">
+    <p>Aucune image sélectionnée</p>
+</div>
+
+        {% if form.specialite is defined %}
+            <h2>Informations du Médecin</h2>
+
+            <div class="form-group">
+                <label for="{{ form.specialite.vars.id }}">{{ form_label(form.specialite) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.specialite) }}
+                </div>
+                {{ form_errors(form.specialite) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.diplome.vars.id }}">{{ form_label(form.diplome) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.diplome) }}
+                </div>
+                {{ form_errors(form.diplome) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.experience.vars.id }}">{{ form_label(form.experience) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.experience) }}
+                </div>
+                {{ form_errors(form.experience) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.adresseCabinet.vars.id }}">{{ form_label(form.adresseCabinet) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.adresseCabinet) }}
+                </div>
+                {{ form_errors(form.adresseCabinet) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.horaireConsultation.vars.id }}">{{ form_label(form.horaireConsultation) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.horaireConsultation) }}
+                </div>
+                {{ form_errors(form.horaireConsultation) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.numeroProfessionnel.vars.id }}">{{ form_label(form.numeroProfessionnel) }}</label>
+                <div class="input-wrapper">
+                    {{ form_widget(form.numeroProfessionnel) }}
+                </div>
+                {{ form_errors(form.numeroProfessionnel) }}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="submit-btn">Enregistrer</button>
+
+        {{ form_end(form) }}
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([36.8065, 10.1815], 13); // Coordonnées de Tunis avec un zoom de niveau 13
+
+    // Ajouter une couche de tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajouter un marqueur initial à la position de Tunis
+    var marker = L.marker([36.8065, 10.1815]).addTo(map);
+
+    // Mettre à jour les champs de latitude et longitude quand le marqueur est déplacé
+    marker.on('moveend', function (e) {
+        var lat = e.target.getLatLng().lat;
+        var lng = e.target.getLatLng().lng;
+
+        // Mettre à jour les champs de latitude et longitude dans votre formulaire
+        document.getElementById("{{ form.latitude.vars.id }}").value = lat;
+        document.getElementById("{{ form.longitude.vars.id }}").value = lng;
+    });
+
+    // Permettre à l'utilisateur de déplacer le marqueur sur la carte
+    map.on('click', function (e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        // Déplacer le marqueur à la nouvelle position
+        marker.setLatLng([lat, lng]);
+
+        // Mettre à jour les champs de latitude et longitude
+        document.getElementById("{{ form.latitude.vars.id }}").value = lat;
+        document.getElementById("{{ form.longitude.vars.id }}").value = lng;
+    });
+</script>
+<script>
+      document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+    var file = event.target.files[0]; 
+    console.log(file); // Vérifier si le fichier est sélectionné
+    var preview = document.getElementById('profilePicturePreview');
+    
+    if (file && file.type.startsWith('image/')) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('profile-picture');
+            preview.innerHTML = '';
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '<p>Aucune image sélectionnée</p>';
+    }
+});
+</script>
+
+{% endblock %}
+</body>
+</html>
+

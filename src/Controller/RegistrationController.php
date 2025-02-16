@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\ProfileFormType;
 use App\Security\EmailVerifier;
 use App\Security\UserAuthAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,15 +21,18 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    private Security $security;
+
+    public function __construct(Security $security)
     {
+        $this->security = $security;
     }
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user,[]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,6 +41,16 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $selectedRole = $form->get('roles')->getData();
+            if (!is_array($selectedRole)) {
+                $selectedRole = [$selectedRole]; // Si ce n'est pas un tableau, on le convertit
+            }
+            
+    
+            if (empty($selectedRole)) {
+                $selectedRole = ['ROLE_USER']; // Assurez-vous que l'utilisateur a un rôle par défaut
+            }
+            $user->setRoles($selectedRole); 
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -53,12 +67,53 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
             $security->login($user, UserAuthAuthenticator::class, 'main');
-            return $this->redirectToRoute('app_verify_email');
+            return $this->redirectToRoute('app_login');
             
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
+        ]);
+    }
+    #[Route('/profil', name: 'app_profile')]
+    public function completeProfile(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->security->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+        }
+        $form = $this->createForm(ProfileFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $profilePicture = $form->get('profilePicture')->getData();
+
+            if ($profilePicture) {
+                $newFilename = uniqid() . '.' . $profilePicture->guessExtension();
+
+                try {
+                    $profilePicture->move(
+                        $this->getParameter('profile_pictures_directory'), // Chemin défini dans services.yaml
+                        $newFilename
+                    );
+                    $user->setProfilePicture($newFilename); // Stocke le nom de fichier dans l'entité
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Erreur lors de l\'upload de la photo.');
+                }
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profil mis à jour avec succès.');
+
+            return $this->redirectToRoute('app_profile');
+        }
+
+        return $this->render('profile/pro.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

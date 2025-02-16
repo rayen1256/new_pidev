@@ -20,56 +20,58 @@
             <p class="subtitle">Remplissez le formulaire pour commencer</p>
 
             <form method="post" novalidate>
-
                 {{ form_errors(registrationForm) }}
 
                 {{ form_start(registrationForm) }}
-                  <div class="input-group">
+                {{ form_widget(registrationForm._token) }}
+
+                
+                <div class="input-group">
                     {{ form_label(registrationForm.username, 'Username') }}
                     <div class="input-field">
                         {{ form_widget(registrationForm.username) }}
                     </div>
-                      
-                    {{ form_errors(registrationForm.username) }} <!-- Affichage des erreurs du champ username -->
-                   
-                  </div>
+                    {{ form_errors(registrationForm.username) }}
+                </div>
 
-                  <div class="input-group">
+                <div class="input-group">
                     {{ form_label(registrationForm.email, 'Email') }}
                     <div class="input-field">
                         {{ form_widget(registrationForm.email) }}
                     </div>
-                    
-                    {{ form_errors(registrationForm.email) }} <!-- Affichage des erreurs du champ email -->
-                    
-                  </div>
+                    {{ form_errors(registrationForm.email) }}
+                </div>
 
-                  <div class="input-group">
+                <div class="input-group">
                     {{ form_label(registrationForm.plainPassword, 'Password') }}
                     <div class="input-field">
                         {{ form_widget(registrationForm.plainPassword) }}
                     </div>
-                      
-                    {{ form_errors(registrationForm.plainPassword) }} <!-- Affichage des erreurs du champ password -->
-                    
-                  </div>
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
 
-                  <div class="input-group">
+                <div class="input-group">
+                    {{ form_label(registrationForm.roles, 'Role') }}
+                    <div class="input-field">
+                        {{ form_widget(registrationForm.roles) }}
+                    </div>
+                    {{ form_errors(registrationForm.roles) }}
+                </div>
+
+                <div class="input-group">
                     {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions') }}
                     <label class="checkbox-container">
                         {{ form_widget(registrationForm.agreeTerms) }}
                         <span class="checkmark"></span>
                     </label>
-                     
-                    {{ form_errors(registrationForm.agreeTerms) }} <!-- Affichage des erreurs du champ agreeTerms -->
-                 
-                  </div>
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
 
-                  <button type="submit" class="btn">Register</button>
+                <button type="submit" class="btn">Register</button>
 
-                  {% for message in app.flashes('success') %}
+                {% for message in app.flashes('success') %}
                     <div class="flash-success">{{ message }}</div>
-                  {% endfor %}
+                {% endfor %}
 
                 {{ form_end(registrationForm) }}
             </form>

@@ -26,9 +26,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: "json")]
-    private array $roles = ['ROLE_USER']; // ROLE_USER par défaut
+    private array $roles = []; // ROLE_USER par défaut
     #[ORM\Column]
     private bool $isVerified = false;
+    // Champs supplémentaires
+    #[ORM\Column(length: 15, nullable: true)]
+    private ?string $telephone = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $age = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $etat = null;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTimeInterface $dateNaissance = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $latitude = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $longitude = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
+    // Champs spécifiques aux médecins
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $specialite = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $diplome = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $experience = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresseCabinet = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $horaireConsultation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $numeroProfessionnel = null;
+
 
     public function getId(): ?int
     {
@@ -79,21 +126,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Chaque utilisateur a au moins le rôle "ROLE_USER"
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-        return $roles;
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        return $roles; 
     }
 
     public function setRoles(array $roles): self
     {
-         // Ajoute ROLE_USER si il n'est pas déjà présent dans le tableau $roles
-    if (!in_array('ROLE_USER', $roles)) {
-        $roles[] = 'ROLE_USER';
-    }
+        $this->roles = $roles;
+        return $this;
+
 
     // Ne supprime pas les doublons, les rôles peuvent donc être dupliqués, mais on s'assure que 'ROLE_USER' est toujours inclus
-    $this->roles = $roles;
+  
 
-    return $this; 
+    
     }
 
     public function eraseCredentials(): void
@@ -110,6 +158,170 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isVerified = $isVerified;
 
+        return $this;
+    }
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): static
+    {
+        $this->telephone = $telephone;
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): static
+    {
+        $this->age = $age;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): static
+    {
+        $this->etat = $etat;
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
+    {
+        $this->dateNaissance = $dateNaissance;
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): static
+    {
+        $this->latitude = $latitude;
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): static
+    {
+        $this->longitude = $longitude;
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): static
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
+    public function getSpecialite(): ?string
+    {
+        return $this->specialite;
+    }
+
+    public function setSpecialite(?string $specialite): static
+    {
+        $this->specialite = $specialite;
+        return $this;
+    }
+
+    public function getDiplome(): ?string
+    {
+        return $this->diplome;
+    }
+
+    public function setDiplome(?string $diplome): static
+    {
+        $this->diplome = $diplome;
+        return $this;
+    }
+
+    public function getExperience(): ?int
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(?int $experience): static
+    {
+        $this->experience = $experience;
+        return $this;
+    }
+
+    public function getAdresseCabinet(): ?string
+    {
+        return $this->adresseCabinet;
+    }
+
+    public function setAdresseCabinet(?string $adresseCabinet): static
+    {
+        $this->adresseCabinet = $adresseCabinet;
+        return $this;
+    }
+
+    public function getHoraireConsultation(): ?string
+    {
+        return $this->horaireConsultation;
+    }
+
+    public function setHoraireConsultation(?string $horaireConsultation): static
+    {
+        $this->horaireConsultation = $horaireConsultation;
+        return $this;
+    }
+
+    public function getNumeroProfessionnel(): ?string
+    {
+        return $this->numeroProfessionnel;
+    }
+
+    public function setNumeroProfessionnel(?string $numeroProfessionnel): static
+    {
+        $this->numeroProfessionnel = $numeroProfessionnel;
         return $this;
     }
 }

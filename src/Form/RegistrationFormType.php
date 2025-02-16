@@ -36,7 +36,16 @@ class RegistrationFormType extends AbstractType
                 ]),
             ],
         ])
-        
+        ->add('roles', ChoiceType::class, [
+            'label' => 'Choisir un rôle',
+            'choices' => [
+                'Médecin' => 'ROLE_MEDECIN',
+                'Utilisateur' => 'ROLE_USER',
+            ],
+            'expanded' => false, // Liste déroulante
+            'multiple' => true,  // Permet de sélectionner plusieurs valeurs (même si une seule peut être choisie)
+            'data' => ['ROLE_USER'], // Par défaut, l'utilisateur reçoit le rôle 'ROLE_USER'
+        ])
         
             ->add('agreeTerms', CheckboxType::class, [
                 'attr' => ['novalidate' => 'novalidate'],
