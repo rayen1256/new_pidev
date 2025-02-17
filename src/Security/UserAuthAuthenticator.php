@@ -46,10 +46,11 @@ class UserAuthAuthenticator extends AbstractLoginFormAuthenticator
     {
         $user = $token->getUser();
         $roles = $user->getRoles(); 
-        
+        if (null === $user->getTelephone()) {
+            // Si le numéro de téléphone est nul, rediriger vers le profil
             return new RedirectResponse($this->urlGenerator->generate('app_profile'));
-        
-        return new RedirectResponse($this->urlGenerator->generate('app_profile'));
+        }
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
     
         
         }

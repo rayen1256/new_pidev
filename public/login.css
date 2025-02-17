@@ -1,7 +1,7 @@
-/* Bouton de fermeture */
 /* Importation des polices */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+/* Réinitialisation globale */
 * {
     margin: 0;
     padding: 0;
@@ -41,8 +41,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 50, 0.5);
-    /* Retirer le flou */
-    backdrop-filter: none; /* Retirer le flou */
+    backdrop-filter: none; /* Retrait du flou */
 }
 
 .logo {
@@ -113,18 +112,9 @@ body {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
 }
 
-/* Styles pour les erreurs */
-.error {
-    border-color: red !important;
-    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
-}
 
-.error-message {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-}
 
+/* Optionnel : Animation subtile pour les erreurs */
 
 /* Mot de passe oublié */
 .forgot-password {
@@ -192,11 +182,6 @@ body {
     transition: all 0.3s ease;
 }
 
-.social-login a i {
-    font-size: 20px;
-    color: #333;
-}
-
 .social-login a:hover {
     background: #007bff;
     color: white;
@@ -204,53 +189,11 @@ body {
 
 /* Lien d'inscription */
 .register-text {
-    font-size: 14px;
+   
+    font-size: 30px;
 }
 
-.register-text a {
-    color: #007bff;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.register-text a:hover {
-    text-decoration: underline;
-}
-.error-message {
-    background-color: rgba(255, 0, 0, 0.9); /* Rouge intense */
-    color: white; /* Texte blanc */
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0px 0px 12px rgba(255, 0, 0, 0.6); /* Effet lumineux */
-    margin-top: 5px;
-    animation: fadeIn 0.5s ease-in-out, shake 0.5s;
-}
-
-/* Animation d'apparition */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Effet de vibration */
-@keyframes shake {
-    0% { transform: translateX(0); }
-    20% { transform: translateX(-5px); }
-    40% { transform: translateX(5px); }
-    60% { transform: translateX(-5px); }
-    80% { transform: translateX(5px); }
-    100% { transform: translateX(0); }
-}
-
-
-
-
-
-
-
+/* Bouton de fermeture */
 .close-btn {
     background: none;
     border: none;
@@ -265,61 +208,33 @@ body {
 }
 
 .close-btn:hover {
-    color: #ff6666; /* Change la couleur au survol */
-}
-/* Texte en vert + effet d'agrandissement et rotation */
-/* 📌 Conteneur du texte */
-.user-info {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2ecc71; /* Vert éclatant */
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(46, 204, 113, 0.1); /* Légère transparence verte */
-    display: inline-block;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    color: #ff6666;
 }
 
-/* 🎯 Effet d'agrandissement et de rotation au survol */
-.user-info:hover {
-    transform: scale(1.1) rotate(3deg);
-    box-shadow: 0px 5px 15px rgba(46, 204, 113, 0.3);
+/* Flash de succès */
+.flash-success {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-out;
 }
 
-/* 🎨 Mise en valeur du nom utilisateur */
-.user-name {
-    font-weight: bold;
-    color: #27ae60; /* Vert foncé */
+.flash-success:hover {
+    background-color: #218838;
+    cursor: pointer;
 }
 
-/* 🔗 Style pro du lien Déconnexion */
-.logout-link {
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #e74c3c; /* Rouge pour contraste */
-    position: relative;
-    transition: color 0.3s ease-in-out;
+/* Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
-/* 🖍️ Animation soulignement */
-.logout-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 100%;
-    height: 2px;
-    background-color: #e74c3c;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-in-out;
-}
-
-/* 🎯 Effet au survol du lien */
-.logout-link:hover {
-    color: #c0392b;
-}
-
-.logout-link:hover::after {
-    transform: scaleX(1);
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 80% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
 }

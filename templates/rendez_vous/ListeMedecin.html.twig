@@ -1,0 +1,108 @@
+{# templates/rendez_vous/liste_medecins.html.twig #}
+
+{% block stylesheets %}
+    {# {{ parent() }} #}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <!-- SB Admin 2 CSS -->
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- CSS Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important; /* Fond blanc */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        <!-- Begin Page Content -->
+        <div class="container-fluid" style="padding-top:1rem;">
+            {# Affichage des messages d'erreur #}
+            {% if app.request.get('action') == 'supprimer' %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Rendez-Vous ! numéro {{ app.request.get('id_A') }}</strong> est supprimé.
+                </div>
+            {% endif %}
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des médecins</b></h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nom du médecin</th>
+                                    <th>Spécialité</th>
+                                    <th>Localisation</th>
+                                    <th>Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for medecin in medecins %}
+                                    <tr> 
+                                        <td>{{ medecin.username }}</td>
+                                        <td>{{ medecin.specialite }}</td> {# Assurez-vous que cette propriété existe dans votre entité User #}
+                                        <td>{{ medecin.adresseCabinet }}</td> {# Assurez-vous que cette propriété existe dans votre entité User #}
+                                        <td>
+                                            <form action="{{ path('app_rendez_vous_new') }}" method="post">
+                                                <input type="hidden" name="medecin_id" value="{{ medecin.id }}" />
+                                                <button class="btn btn-danger" type="submit">
+                                                    <i class="fas fa-calendar-plus"></i> Réserver
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">Aucun médecin trouvé</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Main JS -->
+        <script src="{{ asset('js/main.js') }}"></script>
+
+        <!-- SB Admin 2 JS -->
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#dataTable').DataTable();
+            });
+        </script>
+    </body>
+{% endblock %}

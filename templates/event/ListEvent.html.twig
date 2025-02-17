@@ -1,0 +1,109 @@
+{# templates/rendez_vous/liste_rendez_vous.html.twig #}
+{#{% extends 'home/base.html.twig' %}#}
+
+{% block title %}Liste des événements{% endblock %}
+
+{% block stylesheets %}
+    {#{{ parent() }}#}
+    <!-- Boxicons CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <!-- SB Admin 2 CSS -->
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- CSS Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important; /* Fond blanc */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        {# Inclure la sidebar #}
+        {% include 'home/base.html.twig' %}
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid" style="padding-top:1rem;">
+            {# Affichage des messages d'erreur #}
+            {% if app.request.get('action') == 'supprimer' %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Événement ! numéro {{ app.request.get('id_A') }}</strong> est supprimé.
+                </div>
+            {% endif %}
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des événements</b></h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations des événements</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Titre d'événement</th>
+                                    <th>Date d'événement</th>
+                                    <th>Heure</th>
+                                    <th>Localisation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in events %}
+                                    <tr>
+                                        <td>{{ event.Titre }}</td>
+                                        <td>{{ event.Date|date('Y-m-d') }}</td>
+                                        <td>{{ event.Heure|date('H:i') }}</td>
+                                        <td>{{ event.Localisation }}</td>
+                                        <td>
+                                            {# Formulaire pour voir les détails #}
+                                            <form action="{{ path('app_event_show', {'id': event.id}) }}" method="GET" style="display: inline;">
+                                                <button class="btn btn-info" type="submit" title="Voir détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Main JS -->
+        <script src="{{ asset('js/main.js') }}"></script>
+
+        <!-- SB Admin 2 JS -->
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#dataTable').DataTable();
+            });
+        </script>
+    </body>
+{% endblock %}

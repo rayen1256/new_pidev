@@ -1,0 +1,58 @@
+{# templates/evenement/details_evenement.html.twig #}
+{#{% extends 'home/base.html.twig' %}#}
+
+{% block title %}Détails de l'événement{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <style>
+        .event-banner {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        .event-container {
+           width: 100%;
+           margin: 20px 0; /* Supprime les marges latérales */
+           padding: 20px;
+           background: #fff;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        {# Inclure la sidebar #}
+        {% include 'home/base.html.twig' %}
+
+        <div class="container-fluid">
+            {# Afficher l'image de l'événement (si disponible) #}
+            <img src="{{ asset('images/maladie.jpg') }}" alt="Image de l'événement" class="event-banner">
+
+
+            <div class=" event-container">
+                {# Titre de l'événement #}
+                <h1 class="text-center text-primary">{{ event.Titre }}</h1>
+
+                {# Date et localisation de l'événement #}
+                <p class="text-muted">
+                    <i class="fas fa-calendar-alt"></i> {{ event.Date|date('d/m/Y') }} | 
+                    <i class="fas fa-clock"></i> {{ event.Heure|date('H:i') }} | 
+                    <i class="fas fa-map-marker-alt"></i> {{ event.Localisation }}
+                </p>
+
+                {# Description de l'événement #}
+                <p>{{ event.Description }}</p>
+
+                {# Bouton de retour à la liste des événements #}
+                <a href="{{ path('app_event_index') }}" class="btn btn-secondary mt-3">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
+        </div>
+    </body>
+{% endblock %}
