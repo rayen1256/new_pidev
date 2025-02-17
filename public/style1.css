@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Empêche le débordement horizontal */
+}
+
+.tel {
+    background-color: #00B2EC;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Occupe toute la largeur */
+    position: relative; /* Pour positionner correctement les éléments enfants */
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Largeur maximale du contenu */
+    margin: 0 auto; /* Centrage horizontal */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end; /* Aligne les liens à droite */
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    margin: 0 15px;
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    text-align: right;
+}
+
+.nav-links a:hover {
+    color: #00B2EC;
+    outline: 2px solid #00B2EC; /* Ajoute un cadre bleu */
+    outline-offset: 6px; /* Décale légèrement le cadre pour un meilleur rendu */
+    border-radius: 5px; /* Adoucit les bords */
+}
+
+.dropdown .submenu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Place le sous-menu sous "Services" */
+    left: 0;
+    background: rgba(255, 255, 255, 0.3); /* Fond semi-transparent */
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    min-width: 150px;
+    z-index: 100;
+}
+
+.dropdown .submenu li {
+    padding: 10px;
+    list-style: none;
+}
+
+.dropdown .submenu a {
+    color: black;
+    display: block;
+    padding: 10px;
+}
+
+/* Afficher le sous-menu au survol */
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* Effet au survol */
+.submenu a:hover {
+    color: #00B2EC;
+    border-radius: 5px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center;
+    background: #00B2EC;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 15px;
+    opacity: 100%;
+}
+
+.btn:hover {
+    background-color: #007bff;
+}
+
+.event-container {
+    width: 100%;
+    margin: 20px 0; /* Supprime les marges latérales */
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

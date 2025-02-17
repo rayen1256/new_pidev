@@ -1,0 +1,40 @@
+
+{# templates/base.html.twig #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}S{% endblock %}</title>
+
+    {# Lien vers le fichier CSS #}
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="tel">
+        <h2>tel 28837182</h2>
+    </div>
+   <header>
+        <nav class="navbar">
+            <div class="logo">CC</div>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">Services ▼</a>
+                    <ul class="submenu">
+                        <li><a href="#">Consultation</a></li>
+                        <li><a href="#">Diagnostic</a></li>
+                        <li><a href="#">Traitement</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Suivi Santé</a></li>
+                <li><a href="listmed.html">Médecins</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Mon compte</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <a href="#" class="btn">Sign up</a>
+        </nav>
+    </header>
+</body>

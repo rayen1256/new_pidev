@@ -1,0 +1,109 @@
+{# templates/rendez_vous/liste_rendez_vous.html.twig #}
+{#{% extends 'home/base.html.twig' %}#}
+
+{% block title %}Liste des rendez-vous{% endblock %}
+
+{% block stylesheets %}
+    {#{{ parent() }}#}
+    <!-- Boxicons CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <!-- SB Admin 2 CSS -->
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- CSS Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important; /* Fond blanc */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        {# Inclure la sidebar #}
+        {#{% include 'home/base.html.twig' %}#}
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid" style="padding-top:1rem;">
+            {# Affichage des messages d'erreur #}
+            {% if app.request.get('action') == 'supprimer' %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Rendez-Vous ! numéro {{ app.request.get('id_A') }}</strong> est supprimé.
+                </div>
+            {% endif %}
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des rendez-vous</b></h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations des rendez-vous</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nom du médecin</th>
+                                    <th>Date du rendez-vous</th>
+                                    <th>Heure du rendez-vous</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rendez_vou in rendez_vous %}
+                                    <tr>
+                                        <td>{{ rendez_vou.NomMedecin }}</td>
+                                        <td>{{ rendez_vou.Date|date('Y-m-d') }}</td>
+                                        <td>{{ rendez_vou.Heure|date('H:i') }}</td>
+                                        <td>{{ rendez_vou.Description }}</td>
+                                        <td>
+                                            {# Formulaire pour modifier #}
+                                            <form action="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}" style="display: inline;">
+                                                <button class="btn btn-warning" type="submit" title="Modifier">
+                                                    <i class="fas fa-edit"></i> 
+                                                </button>
+                                            </form>
+
+                                            {# Formulaire pour supprimer #}
+                                            <form action="{{ path('app_rendez_vous_delete', {'id': rendez_vou.id}) }}"  method="post" style="display: inline;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ rendez_vou.id) }}">
+                                                <button class="btn btn-danger" type="submit" title="Supprimer">
+                                                    <i class="fas fa-trash"></i> 
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/main.js') }}"></script>
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var table = $('#dataTable').DataTable();
+            });
+        </script>
+    </body>
+{% endblock %}

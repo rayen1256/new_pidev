@@ -1,0 +1,131 @@
+{# templates/patients/liste_patients.html.twig #}
+{#{% extends 'home/base.html.twig' %}#}
+
+{% block title %}Liste des patients{% endblock %}
+
+{% block stylesheets %}
+    {#{{ parent() }}#}
+    <!-- Boxicons CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- SB Admin 2 CSS -->
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- CSS Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important; /* Fond blanc */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        {# Inclure la sidebar #}
+        {#{% include 'home/base.html.twig' %}#}
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid" style="padding-top:5rem;">
+            {# Affichage des messages d'erreur #}
+            {% if app.request.get('action') == 'edit' %}
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Patient ! {{ app.request.get('prenom') }} {{ app.request.get('nom') }}</strong> est modifié.
+                </div>
+            {% elseif app.request.get('action') == 'supprimer' %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Patient ! numéro {{ app.request.get('id_p') }}</strong> est supprimé.
+                </div>
+            {% endif %}
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des Rendez-vous</b></h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations des patients</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nom du patient</th>
+                                    <th>Date rendez-vous</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {#{% for patient in patients %}#}
+                                    <tr>
+                                        {#<td>{{ patient.cin }}</td>
+                                        <td>{{ patient.firstName }}</td>
+                                        <td>{{ patient.lastName }}</td>
+                                        <td>{{ patient.email }}</td>
+                                        <td>{{ patient.phone }}</td>
+                                        <td>{{ patient.birthDate|date('Y-m-d') }}</td>
+                                        <td>{{ patient.sex }}</td>#}
+                                         <td></td>
+                                         <td></td>
+                                         
+                                        <td>
+                                           <form action="{{ path('app_rendez_vous_indext') }}" method="POST" class="d-flex align-items-center gap-2">
+                                               <a href="{{ path('app_rendez_vous_indext') }}" class="btn btn-success">
+                                                   <i class="fas fa-user-check"></i>
+                                               </a>
+
+                                               <input type="hidden" name="id" />
+
+                                               <button class="btn btn-danger" type="submit">
+                                                   <i class="fas fa-times"></i>
+                                               </button>
+
+                                               {#<a href="{{ path('app_rendez_vous_indext') }}" class="btn btn-info">
+                                                   <i class="fas fa-folder"></i>
+                                               </a>#}
+                                           </form>
+
+                                        </td>
+                                    </tr>
+                                {#{% endfor %}#}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        
+        <!-- Main JS -->
+        <script src="{{ asset('js/main.js') }}"></script>
+
+        <!-- SB Admin 2 JS -->
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#dataTable').DataTable();
+            });
+        </script>
+    </body>
+{% endblock %}
