@@ -22,10 +22,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private Security $security;
+     private EmailVerifier $emailVerifier;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security , EmailVerifier $emailVerifier)
     {
         $this->security = $security;
+           $this->emailVerifier = $emailVerifier; 
     }
 
     #[Route('/register', name: 'app_register')]
@@ -56,13 +58,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Votre compte a été créé avec succès !');
             // generate a signed url and email it to the user
-           // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-             //   (new TemplatedEmail())
-                //    ->from(new Address('tonemail@gmail.com', 'Mon Application'))
-                //    ->to((string) $user->getEmail())
-                 //   ->subject('Please Confirm your Email')
-                 //   ->htmlTemplate('registration/confirmation_email.html.twig')
-           // );
+
+          
+
 
             // do anything else you need here, like send an email
 
@@ -79,9 +77,12 @@ class RegistrationController extends AbstractController
     public function completeProfile(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->security->getUser();
-
         if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+            
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
+    
+            
+            return $this->redirectToRoute('app_login'); // Remplace app_login par la route de connexion
         }
         $form = $this->createForm(ProfileFormType::class, $user);
         $form->handleRequest($request);
@@ -137,5 +138,22 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');
+    }
+    #[Route(path: '/prouser', name: 'user_pro')]
+     
+    public function showProfile(Request $request)
+    {
+        // Récupérer l'utilisateur actuellement connecté
+        $user = $this->getUser(); // Ceci assume que l'utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir cette page.');
+            return $this->redirectToRoute('app_login');
+
+        }
+
+        // Passer les données à la vue Twig
+        return $this->render('profile/userp.html.twig', [
+            'user' => $user,
+        ]);
     }
 }
