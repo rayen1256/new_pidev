@@ -62,12 +62,9 @@
                                         <td>{{ medecin.specialite }}</td> {# Assurez-vous que cette propriété existe dans votre entité User #}
                                         <td>{{ medecin.adresseCabinet }}</td> {# Assurez-vous que cette propriété existe dans votre entité User #}
                                         <td>
-                                            <form action="{{ path('app_rendez_vous_new') }}" method="post">
-                                                <input type="hidden" name="medecin_id" value="{{ medecin.id }}" />
-                                                <button class="btn btn-danger" type="submit">
-                                                    <i class="fas fa-calendar-plus"></i> Réserver
-                                                </button>
-                                            </form>
+                                            <a href="{{ path('app_rendez_vous_new', {'medecin_id': medecin.id}) }}" class="btn btn-danger">
+                                                <i class="fas fa-calendar-plus"></i> Réserver
+                                            </a>   
                                         </td>
                                     </tr>
                                 {% else %}

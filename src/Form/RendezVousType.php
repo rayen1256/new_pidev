@@ -25,6 +25,7 @@ class RendezVousType extends AbstractType
 
             ->add('NomMedecin', TextType::class, [
                 'label' => 'Nom du médecin',
+                'attr' => ['class' => 'form-control'],
             ])
 
 

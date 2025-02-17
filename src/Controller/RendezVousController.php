@@ -57,26 +57,35 @@ final class RendezVousController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $rendezVou = new RendezVous();
-        $form = $this->createForm(RendezVousType::class, $rendezVou);
-        $form->handleRequest($request);
-        $rendezVou->setStatut('en attente');
+    #[Route('/new/{medecin_id}', name: 'app_rendez_vous_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, int $medecin_id = null): Response
+{
+    $rendezVou = new RendezVous();
+    $form = $this->createForm(RendezVousType::class, $rendezVou);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($rendezVou);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
+    // Si un ID de médecin est fourni, pré-remplir le champ NomMedecin
+    if ($medecin_id !== null) {
+        $medecin = $userRepository->find($medecin_id);
+        if ($medecin) {
+            $rendezVou->setNomMedecin($medecin->getUsername());
         }
-
-        return $this->render('rendez_vous/Reservez-vous.html.twig', [
-            'rendez_vou' => $rendezVou,
-            'form' => $form,
-        ]);
     }
+
+    $form->handleRequest($request);
+    $rendezVou->setStatut('en attente');
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($rendezVou);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_rendez_vous_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    return $this->render('rendez_vous/Reservez-vous.html.twig', [
+        'rendez_vou' => $rendezVou,
+        'form' => $form,
+    ]);
+}
 
     //#[Route('/{id}', name: 'app_rendez_vous_show', methods: ['GET'])]
     //public function show(RendezVous $rendezVou): Response

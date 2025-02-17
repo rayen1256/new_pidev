@@ -1,6 +1,6 @@
 {# templates/rendez_vous/prendre-rendezvous.html.twig #}
 
-{% extends 'home/base.html.twig' %}
+{#{% extends 'home/base.html.twig' %}#}
 
 {% block title %}Prendre un rendez-vous{% endblock %}
 
@@ -21,7 +21,7 @@
 
 {% block body %}
     <body id="body-pd">
-        {% include 'home/base.html.twig' %}
+       {# {% include 'home/base.html.twig' %}#}
 
         <div class="container-fluid" style="padding-top:5rem;">
             {% if app.request.get('action') == 'refuse' %}
@@ -61,7 +61,7 @@
 
                                 <div class="form-group">
                                     {{ form_label(form.NomMedecin, 'Nom du médecin') }}
-                                    {{ form_widget(form.NomMedecin, {'attr': {'class': 'form-control', 'novalidate': 'novalidate'}}) }}
+                                    {{ form_widget(form.NomMedecin, {'attr': {'class': 'form-control', 'value': rendez_vou.NomMedecin ?? ''}}) }}
                                     {% for error in form.NomMedecin.vars.errors %}
                                         <div class="alert alert-danger">{{ error.message }}</div>
                                     {% endfor %}
