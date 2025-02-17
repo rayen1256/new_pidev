@@ -1,0 +1,92 @@
+
+
+{% block title %}Modifier Activité Physique{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+      
+
+        <div class="container-fluid" style="padding-top:5rem;">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Modifier une activité physique</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-10">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Formulaire de modification</h6>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                            <div class="form-group">
+                                {{ form_label(form.nom, 'Nom de l\'activité') }}
+                                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                                {% for error in form.nom.vars.errors %}
+                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.duree, 'Durée (minutes)') }}
+                                {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                                {% for error in form.duree.vars.errors %}
+                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.type, 'Type d\'activité') }}
+                                {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+                                {% for error in form.type.vars.errors %}
+                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.description, 'Description') }}
+                                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                                {% for error in form.description.vars.errors %}
+                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.intensite, 'Intensité') }}
+                                {{ form_widget(form.intensite, {'attr': {'class': 'form-control'}}) }}
+                                {% for error in form.intensite.vars.errors %}
+                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success">{{ message }}</div>
+                            {% endfor %}
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock %}

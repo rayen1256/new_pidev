@@ -1,0 +1,19 @@
+
+
+{% block title %}Liste des Habitudes{% endblock %}
+
+{% block body %}
+    <h1>Liste des Habitudes</h1>
+
+    {% for habitude in habitudes %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ habitude.nom }}</h5>
+                <p class="card-text">{{ habitude.description }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucune habitude trouvée.</p>
+    {% endfor %}
+
+{% endblock %}

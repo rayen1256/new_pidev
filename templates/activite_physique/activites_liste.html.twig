@@ -1,0 +1,123 @@
+
+
+
+{% block title %}Liste des Activités Physiques{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body id="body-pd">
+        <div class="container-fluid" style="padding-top:1rem;">
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des Activités Physiques</b></h1>
+
+            <!-- ✅ Ajout des statistiques avant le tableau -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Nombre Total d'Activités
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ activite_physiques|length }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dumbbell fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Durée Moyenne
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ duree_moyenne }} min</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ✅ Fin des statistiques -->
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations des Activités Physiques</h6>
+                    <a href="{{ path('app_activite_physique_new') }}" class="btn btn-success float-right">
+                        <i class="fas fa-plus"></i> Ajouter une nouvelle activité
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Durée</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for activite in activite_physiques %}
+                                    <tr>
+                                        <td>{{ activite.nom }}</td>
+                                        <td>{{ activite.duree }} min</td>
+                                        <td>{{ activite.type }}</td>
+                                        <td>
+                                            <a href="{{ path('app_activite_physique_show', {'id': activite.id}) }}" class="btn btn-info">
+                                                <i class="fas fa-eye"></i> Voir
+                                            </a>
+                                            <a href="{{ path('app_activite_physique_edit', {'id': activite.id}) }}" class="btn btn-warning">
+                                                <i class="fas fa-edit"></i> Modifier
+                                            </a>
+                                            <form method="post" action="{{ path('app_activite_physique_delete', {'id': activite.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');" style="display:inline;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ activite.id) }}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i> Supprimer
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="{{ asset('js/main.js') }}"></script>
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable();
+            });
+        </script>
+    </body>
+{% endblock %}

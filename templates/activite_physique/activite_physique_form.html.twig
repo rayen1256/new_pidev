@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ activite_physique.id ? 'Modifier' : 'Ajouter' }} une Activité Physique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="overlay"></div>
+            <div class="logo">HealthCare</div>
+        </div>
+
+        <div class="right">
+            <h2 class="title">{{ activite_physique.id ? 'Modifier' : 'Ajouter' }} une Activité Physique</h2>
+            <p class="subtitle">Remplissez les champs ci-dessous</p>
+
+            <form method="post" novalidate>
+                {{ form_start(form, { 'attr': {'novalidate': 'novalidate'} }) }}
+
+                <div class="input-group">
+                    {{ form_label(form.nom, 'Nom de l\'activité') }}
+                    <div class="input-field">
+                        {{ form_widget(form.nom) }}
+                    </div>
+                    <div class="error-message">
+                        {{ form_errors(form.nom) }}
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    {{ form_label(form.duree, 'Durée (semaines)') }}
+                    <div class="input-field">
+                        {{ form_widget(form.duree) }}
+                    </div>
+                    <div class="error-message">
+                        {{ form_errors(form.duree) }}
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    {{ form_label(form.type, 'Type d\'activité') }}
+                    <div class="input-field">
+                        {{ form_widget(form.type) }}
+                    </div>
+                    <div class="error-message">
+                        {{ form_errors(form.type) }}
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    {{ form_label(form.description, 'Description') }}
+                    <div class="input-field">
+                        {{ form_widget(form.description) }}
+                    </div>
+                    <div class="error-message">
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    {{ form_label(form.intensite, 'Intensité') }}
+                    <div class="input-field">
+                        {{ form_widget(form.intensite) }}
+                    </div>
+                    <div class="error-message">
+                        {{ form_errors(form.intensite) }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">{{ activite_physique.id ? 'Mettre à jour' : 'Ajouter' }}</button>
+
+                {{ form_end(form) }}
+            </form>
+
+            <a href="{{ path('app_home') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Retour</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

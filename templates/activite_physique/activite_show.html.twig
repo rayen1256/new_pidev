@@ -1,0 +1,182 @@
+{% block title %}Détails de l'Activité Physique{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Import de la police */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        p {
+            color: #6c757d;
+        }
+
+        /* Cartes Statistiques */
+        .stats-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .stat-blue {
+            border-left: 5px solid #007bff;
+        }
+
+        .stat-green {
+            border-left: 5px solid #28a745;
+        }
+
+        .stat-yellow {
+            border-left: 5px solid #ffc107;
+        }
+
+        .stat-cyan {
+            border-left: 5px solid #17a2b8;
+        }
+
+        /* Diagramme */
+        .chart-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="right">
+            <h2 class="title">Détails de l'Activité Physique</h2>
+            <p class="subtitle">Informations détaillées sur l'activité</p>
+
+            <div class="details">
+                <p><i class="fas fa-dumbbell"></i> <strong>Nom :</strong> {{ activite_physique.nom }}</p>
+                <p><i class="fas fa-clock"></i> <strong>Durée :</strong> {{ activite_physique.duree }} minutes</p>
+                <p><i class="fas fa-running"></i> <strong>Type :</strong> {{ activite_physique.type }}</p>
+                <p><i class="fas fa-align-left"></i> <strong>Description :</strong> {{ activite_physique.description }}</p>
+                <p><i class="fas fa-bolt"></i> <strong>Intensité :</strong> {{ activite_physique.intensite }}</p>
+            </div>
+
+            <!-- Graphique en courbe -->
+            <div class="chart-container">
+                <h3 class="chart-title">Évolution de l'Activité</h3>
+                <canvas id="activityChart"></canvas>
+            </div>
+
+            <div class="actions">
+                <a href="{{ path('app_activite_physique_index') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+                <a href="{{ path('app_activite_physique_edit', {'id': activite_physique.id}) }}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <form method="post" action="{{ path('app_activite_physique_delete', {'id': activite_physique.id}) }}" 
+                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');" 
+                      style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ activite_physique.id) }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Données pour le graphique (remplacer par vos données dynamiques)
+        const data = {
+            labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'], // Jours de la semaine
+            datasets: [{
+                label: 'Durée de l\'activité (minutes)',
+                data: [30, 45, 60, 40, 50, 70, 90], // Remplacer par des données dynamiques
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Jour de la semaine'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Durée (minutes)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Créer le graphique
+        const activityChart = new Chart(
+            document.getElementById('activityChart'),
+            config
+        );
+    </script>
+{% endblock %}
