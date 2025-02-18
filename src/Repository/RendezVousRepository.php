@@ -16,6 +16,17 @@ class RendezVousRepository extends ServiceEntityRepository
         parent::__construct($registry, RendezVous::class);
     }
 
+public function findByUser($user): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.relation = :user')
+        ->setParameter('user', $user)
+        ->orderBy('r.Date', 'ASC') // Tri par date croissante
+        ->getQuery()
+        ->getResult();
+}
+
+
     //    /**
     //     * @return RendezVous[] Returns an array of RendezVous objects
     //     */

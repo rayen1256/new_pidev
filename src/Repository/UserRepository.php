@@ -22,7 +22,7 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('role', '%"' . $role . '"%')
             ->getQuery()
             ->getResult();
-    }
+    } 
 
     //    /**
     //     * @return User[] Returns an array of User objects

@@ -38,22 +38,55 @@ final class RendezVousController extends AbstractController
         ]);
     }
 
-    #[Route('/rou' ,name: 'app_rendez_vous_indext', methods: ['GET'])]
-    public function indext(RendezVousRepository $rendezVousRepository): Response
-    {
-        return $this->render('rendez_vous/ListRendezVousCoteMedecin.html.twig', [
-            'rendez_vouses' => $rendezVousRepository->findAll(),
-        ]);
+    #[Route('/rou', name: 'app_rendez_vous_indext', methods: ['GET'])]
+public function indext(RendezVousRepository $rendezVousRepository): Response
+{
+    // Récupérer l'utilisateur connecté (médecin)
+    $user = $this->getUser();
+
+    // Filtrer les rendez-vous pour ce médecin
+    $rendezVousList = $rendezVousRepository->findBy(['relation' => $user]);
+
+    return $this->render('rendez_vous/ListRendezVousCoteMedecin.html.twig', [
+        'rendez_vouses' => $rendezVousList,
+    ]);
+}
+
+#[Route('/confirmer/{id}', name: 'app_rendez_vous_confirmer', methods: ['POST'])]
+public function confirmer(Request $request, RendezVous $rendezVou, EntityManagerInterface $entityManager): Response
+{
+    if ($this->isCsrfTokenValid('confirmer'.$rendezVou->getId(), $request->request->get('_token'))) {
+        $rendezVou->setStatut('confirmé');
+        $entityManager->flush();
     }
 
+    return $this->redirectToRoute('app_rendez_vous_indext');
+}
 
-    #[Route('/saw' ,name: 'app_rendez_vous_indexx', methods: ['GET'])]
-    public function indexx(RendezVousRepository $rendezVousRepository): Response
-    {
-        return $this->render('rendez_vous/ListRendezVous.html.twig', [
-            'rendez_vous' => $rendezVousRepository->findAll(),
-        ]);
+#[Route('/annuler/{id}', name: 'app_rendez_vous_annuler', methods: ['POST'])]
+public function annuler(Request $request, RendezVous $rendezVou, EntityManagerInterface $entityManager): Response
+{
+    if ($this->isCsrfTokenValid('annuler'.$rendezVou->getId(), $request->request->get('_token'))) {
+        $rendezVou->setStatut('annulé');
+        $entityManager->flush();
     }
+
+    return $this->redirectToRoute('app_rendez_vous_indext');
+}
+
+
+#[Route('/saw', name: 'app_rendez_vous_indexx', methods: ['GET'])]
+public function indexx(RendezVousRepository $rendezVousRepository): Response
+{
+    $user = $this->getUser(); // Récupère l'utilisateur connecté
+
+    // Utilise la méthode findByUser avec l'objet utilisateur
+    $rendezVousList = $rendezVousRepository->findByUser($user);
+
+    return $this->render('rendez_vous/ListRendezVous.html.twig', [
+        'rendez_vous' => $rendezVousList,
+    ]);
+}
 
 
 
@@ -75,6 +108,8 @@ final class RendezVousController extends AbstractController
     $rendezVou->setStatut('en attente');
 
     if ($form->isSubmitted() && $form->isValid()) {
+        $rendezVou->setRelation($this->getUser());
+        
         $entityManager->persist($rendezVou);
         $entityManager->flush();
 

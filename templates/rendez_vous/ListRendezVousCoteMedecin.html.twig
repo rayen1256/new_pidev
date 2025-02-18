@@ -61,42 +61,32 @@
                                 <tr>
                                     <th>Nom du patient</th>
                                     <th>Date rendez-vous</th>
+                                    <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {#{% for patient in patients %}#}
-                                    <tr>
-                                        {#<td>{{ patient.cin }}</td>
-                                        <td>{{ patient.firstName }}</td>
-                                        <td>{{ patient.lastName }}</td>
-                                        <td>{{ patient.email }}</td>
-                                        <td>{{ patient.phone }}</td>
-                                        <td>{{ patient.birthDate|date('Y-m-d') }}</td>
-                                        <td>{{ patient.sex }}</td>#}
-                                         <td></td>
-                                         <td></td>
-                                         
+                                {% for rendez_vous in rendez_vouses %}
+                                     <tr>
+                                        <td>{{ rendez_vous.nomPatient }}</td>
+                                        <td>{{ rendez_vous.date|date('Y-m-d H:i') }}</td>
+                                        <td>{{ rendez_vous.statut }}</td>
                                         <td>
-                                           <form action="{{ path('app_rendez_vous_indext') }}" method="POST" class="d-flex align-items-center gap-2">
-                                               <a href="{{ path('app_rendez_vous_indext') }}" class="btn btn-success">
-                                                   <i class="fas fa-user-check"></i>
-                                               </a>
-
-                                               <input type="hidden" name="id" />
-
-                                               <button class="btn btn-danger" type="submit">
-                                                   <i class="fas fa-times"></i>
-                                               </button>
-
-                                               {#<a href="{{ path('app_rendez_vous_indext') }}" class="btn btn-info">
-                                                   <i class="fas fa-folder"></i>
-                                               </a>#}
-                                           </form>
-
+                                             <form action="{{ path('app_rendez_vous_confirmer', {'id': rendez_vous.id}) }}" method="POST" class="d-flex align-items-center gap-2">
+                                                 <input type="hidden" name="_token" value="{{ csrf_token('confirmer' ~ rendez_vous.id) }}">
+                                                 <button type="submit" class="btn btn-success">
+                                                    <i class="fas fa-check"></i> 
+                                                 </button>
+                                             </form>
+                                             <form action="{{ path('app_rendez_vous_annuler', {'id': rendez_vous.id}) }}" method="POST" class="d-flex align-items-center gap-2">
+                                                 <input type="hidden" name="_token" value="{{ csrf_token('annuler' ~ rendez_vous.id) }}">
+                                                 <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-times"></i> 
+                                                 </button>
+                                             </form>
                                         </td>
-                                    </tr>
-                                {#{% endfor %}#}
+                                     </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
