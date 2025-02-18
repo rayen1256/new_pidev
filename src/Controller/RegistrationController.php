@@ -103,7 +103,7 @@ class RegistrationController extends AbstractController
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Erreur lors de l\'upload de la photo.');
                 }
-            }
+            } 
 
             $entityManager->persist($user);
             $entityManager->flush();

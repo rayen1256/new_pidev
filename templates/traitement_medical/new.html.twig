@@ -1,0 +1,80 @@
+{% block title %}Ajouter un Traitement Médical{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:5rem;">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Ajouter un Traitement Médical</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Informations du Traitement Médical</h6>
+                    </div>
+
+                    <div class="card-body">
+                        {{ form_start(form) }}
+
+                        <div class="mb-3">
+                            <label class="form-label">Nom du Médicament</label>
+                            {{ form_widget(form.nomMedicament, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Dosage</label>
+                            {{ form_widget(form.dosage, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fréquence</label>
+                            {{ form_widget(form.frequence, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Date de Début</label>
+                            {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Date de Fin</label>
+                            {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Dossier Médical</label>
+                            {{ form_widget(form.dossier_med, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <a href="{{ path('app_traitement_medical_index') }}" class="btn btn-secondary">Annuler</a>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock %}

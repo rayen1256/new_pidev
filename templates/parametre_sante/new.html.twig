@@ -1,0 +1,106 @@
+{#% extends 'base.html.twig' %#}
+
+{% block title %}Créer un Paramètre de Santé{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: white !important; }
+        .error-message { color: red; font-size: 0.9rem; margin-top: 5px; }
+        .input-field { display: flex; align-items: center; }
+        .input-field i { margin-right: 10px; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:5rem;">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Créer un Paramètre de Santé</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informations du Paramètre</h6>
+                    </div>
+
+                    <div class="card-body">
+                        {{ form_start(form, { 'attr': {'novalidate': 'novalidate'} }) }}
+
+                        <!-- Type de Paramètre -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.typeparametre.vars.id }}">Type de Paramètre</label>
+                            <div class="input-field">
+                                <i class="fa fa-tags"></i>
+                                {{ form_widget(form.typeparametre, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            {% if form.typeparametre.vars.errors|length > 0 %}
+                                <div class="error-message">
+                                    {% for error in form.typeparametre.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Valeur -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.valeur.vars.id }}">Valeur</label>
+                            <div class="input-field">
+                                <i class="fa fa-chart-line"></i>
+                                {{ form_widget(form.valeur, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            {% if form.valeur.vars.errors|length > 0 %}
+                                <div class="error-message">
+                                    {% for error in form.valeur.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Note -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.note.vars.id }}">Note</label>
+                            <div class="input-field">
+                                <i class="fa fa-star"></i>
+                                {{ form_widget(form.note, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            {% if form.note.vars.errors|length > 0 %}
+                                <div class="error-message">
+                                    {% for error in form.note.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Date de Mesure -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.dateMesure.vars.id }}">Date de Mesure</label>
+                            <div class="input-field">
+                                <i class="fa fa-calendar"></i>
+                                {{ form_widget(form.dateMesure, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            {% if form.dateMesure.vars.errors|length > 0 %}
+                                <div class="error-message">
+                                    {% for error in form.dateMesure.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Enregistrer</button>
+                        <a href="{{ path('app_parametre_sante_index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Retour</a>
+                        
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

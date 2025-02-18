@@ -1,0 +1,69 @@
+
+{% block title %}Dossier Médical{% endblock %}
+
+{% block body %}
+    <h1>Dossier Médical: {{ dossier_medica_l.typemaladie }}</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Détails du Dossier Médical</h3>
+                <ul>
+                    <li><strong>Type de Maladie:</strong> {{ dossier_medica_l.typemaladie }}</li>
+                    <li><strong>Date de Création:</strong> {{ dossier_medica_l.dateCreation|date('d/m/Y') }}</li>
+                    <li><strong>Description:</strong> {{ dossier_medica_l.description }}</li>
+                    <li><strong>Date du Dernier Suivi:</strong> {{ dossier_medica_l.dernierSuivi|date('d/m/Y') }}</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h3>Documents Médicaux</h3>
+                {% if dossier_medica_l.documentMedicals is not empty %}
+                    <ul>
+                        {% for document in dossier_medica_l.documentMedicals %}
+                            <li>{{ document.nom }} - {{ document.date|date('d/m/Y') }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun document médical associé.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Paramètres de Santé</h3>
+                {% if dossier_medica_l.parametreSantes is not empty %}
+                    <ul>
+                        {% for parametre in dossier_medica_l.parametreSantes %}
+                            <li>{{ parametre.nom }}: {{ parametre.valeur }} ({{ parametre.unite }})</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun paramètre de santé associé.</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h3>Traitements Médicaux</h3>
+                {% if dossier_medica_l.traitementMedicals is not empty %}
+                    <ul>
+                        {% for traitement in dossier_medica_l.traitementMedicals %}
+                            <li>{{ traitement.medicament.nom }} - {{ traitement.dose }} {{ traitement.medicament.unite }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun traitement médical associé.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <a href="{{ path('app_dossier_medica_l_edit', {'id': dossier_medica_l.id}) }}" class="btn btn-warning">Éditer</a>
+                <form action="{{ path('app_dossier_medica_l_delete', {'id': dossier_medica_l.id}) }}" method="post" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dossier_medica_l.id) }}">
+                    <button class="btn btn-danger" type="submit">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

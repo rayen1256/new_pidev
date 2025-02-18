@@ -1,0 +1,93 @@
+{% block title %}Liste des Documents Médicaux{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:1rem;">
+        {% if app.request.get('action') == 'supprimer' %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Document Médical ! numéro {{ app.request.get('id_A') }}</strong> est supprimé.
+            </div>
+        {% endif %}
+
+        <h1 class="h3 mb-2 text-gray-800"><b>Liste des Documents Médicaux</b></h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Informations des Documents Médicaux</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Titre</th>
+                                <th>Date Upload</th>
+                                <th>Fichier</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for document_medical in document_medicals %}
+                                <tr>
+                                    <td>{{ document_medical.id }}</td>
+                                    <td>{{ document_medical.type }}</td>
+                                    <td>{{ document_medical.titre }}</td>
+                                    <td>{{ document_medical.dateUpload ? document_medical.dateUpload|date('Y-m-d') : '' }}</td>
+                                    <td>{{ document_medical.fichier }}</td>
+                                    <td>
+                                        <a href="{{ path('app_document_medical_show', {'id': document_medical.id}) }}" class="btn btn-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                        <a href="{{ path('app_document_medical_edit', {'id': document_medical.id}) }}" class="btn btn-warning">
+                                            <i class="fas fa-edit"></i> Modifier
+                                        </a>
+                                        <form action="{{ path('app_document_medical_delete', {'id': document_medical.id}) }}" method="post" style="display: inline;">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ document_medical.id) }}">
+                                            <button class="btn btn-danger" type="submit">
+                                                <i class="fas fa-trash-alt"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6">Aucun document médical trouvé</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#dataTable').DataTable();
+        });
+    </script>
+{% endblock %}

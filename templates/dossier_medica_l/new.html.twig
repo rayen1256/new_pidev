@@ -1,0 +1,75 @@
+{% block title %}Créer un Dossier Médical{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: white !important; }
+        .error-message { color: red; font-size: 0.9rem; margin-top: 5px; }
+        .input-field { display: flex; align-items: center; }
+        .input-field i { margin-right: 10px; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:5rem;">
+        {% if app.request.get('action') == 'refuse' %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Date occupée !</strong> Choisissez une autre date.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Créer un Dossier Médical</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informations du Dossier</h6>
+                    </div>
+
+                    <div class="card-body">
+                        {{ form_start(form, { 'attr': {'novalidate': 'novalidate'} }) }}
+
+                        {% for field in [form.typemaladie, form.dateCreation, form.description, form.dernierSuivi] %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.vars.id }}">{{ field.vars.label }}</label>
+                                <div class="input-field">
+                                    <i class="fa {% if field.vars.id == 'dateCreation' %}fa-calendar{% elseif field.vars.id == 'typemaladie' %}fa-virus{% elseif field.vars.id == 'description' %}fa-file-alt{% else %}fa-history{% endif %}"></i>
+                                    {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                {% if field.vars.errors|length > 0 %}
+                                    <div class="error-message">
+                                        {% for error in field.vars.errors %}
+                                            {{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{# templates/dossier_medica_l/edit.html.twig #}
+
+{#% extends 'home/base.html.twig' %#}
+
+{% block title %}Modifier le Dossier Médical{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:5rem;">
+        <!-- Affichage des erreurs -->
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Modifier le Dossier Médical</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Modifier les informations</h6>
+                    </div>
+
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_label(form.typemaladie, 'Type de maladie') }}
+                                {{ form_widget(form.typemaladie, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.dateCreation, 'Date de création') }}
+                                {{ form_widget(form.dateCreation, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.description, 'Description') }}
+                                {{ form_widget(form.description, { 'attr': {'class': 'form-control', 'rows': '3'} }) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.dernierSuivi, 'Dernier suivi') }}
+                                {{ form_widget(form.dernierSuivi, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Enregistrer</button>
+                            <a href="{{ path('app_dossier_medica_l_index') }}" class="btn btn-secondary">Annuler</a>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock %}

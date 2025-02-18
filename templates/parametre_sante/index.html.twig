@@ -1,0 +1,84 @@
+{#% extends 'home/base.html.twig' %#}
+
+{% block title %}Liste des paramètres de santé{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="padding-top:1rem;">
+        <h1 class="h3 mb-2 text-gray-800"><b>Liste des paramètres de santé</b></h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Informations des paramètres</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date de mesure</th>
+                                <th>Valeur</th>
+                                <th>Note</th>
+                                <th>Type de paramètre</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for parametre_sante in parametre_santes %}
+                                <tr>
+                                    <td>{{ parametre_sante.id }}</td>
+                                    <td>{{ parametre_sante.dateMesure ? parametre_sante.dateMesure|date('Y-m-d') : '' }}</td>
+                                    <td>{{ parametre_sante.valeur }}</td>
+                                    <td>{{ parametre_sante.note }}</td>
+                                    <td>{{ parametre_sante.typeparametre }}</td>
+                                    <td>
+                                        <a href="{{ path('app_parametre_sante_show', {'id': parametre_sante.id}) }}" class="btn btn-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                        <a href="{{ path('app_parametre_sante_edit', {'id': parametre_sante.id}) }}" class="btn btn-warning">
+                                            <i class="fas fa-edit"></i> Modifier
+                                        </a>
+                                        <form action="{{ path('app_parametre_sante_delete', {'id': parametre_sante.id}) }}" method="post" style="display:inline;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ parametre_sante.id) }}">
+                                            <button class="btn btn-danger" type="submit" title="Supprimer">
+                                                <i class="fas fa-trash"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6">Aucun enregistrement trouvé</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
+{% endblock %}

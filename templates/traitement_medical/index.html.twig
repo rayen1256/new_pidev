@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraitementMedical Index</title>
+
+    {% block stylesheets %}
+        {#{ parent() }#}
+        <!-- Boxicons CSS -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+        <!-- SB Admin 2 CSS -->
+        <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+        <style>
+            body {
+                background-color: white !important; /* Fond blanc */
+            }
+        </style>
+    {% endblock %}
+</head>
+<body id="body-pd">
+    {% block body %}
+        {#% include 'home/base.html.twig' %#}
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid" style="padding-top:1rem;">
+            {% if app.request.get('action') == 'supprimer' %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Traitement médical ! numéro {{ app.request.get('id_A') }}</strong> est supprimé.
+                </div>
+            {% endif %}
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800"><b>Liste des Traitements Médicaux</b></h1>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Informations des traitements médicaux</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nom du Médicament</th>
+                                    <th>Dosage</th>
+                                    <th>Fréquence</th>
+                                    <th>Date de Début</th>
+                                    <th>Date de Fin</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for traitement_medical in traitement_medicals %}
+                                    <tr>
+                                        <td>{{ traitement_medical.nomMedicament }}</td>
+                                        <td>{{ traitement_medical.dosage }}</td>
+                                        <td>{{ traitement_medical.frequence }}</td>
+                                        <td>{{ traitement_medical.dateDebut ? traitement_medical.dateDebut|date('Y-m-d') : '' }}</td>
+                                        <td>{{ traitement_medical.dateFin ? traitement_medical.dateFin|date('Y-m-d') : '' }}</td>
+                                        <td>
+                                            <a href="{{ path('app_traitement_medical_show', {'id': traitement_medical.id}) }}" class="btn btn-info" title="Voir">
+                                                <i class="fas fa-eye"></i> Voir
+                                            </a>
+                                            <a href="{{ path('app_traitement_medical_edit', {'id': traitement_medical.id}) }}" class="btn btn-warning" title="Modifier">
+                                                <i class="fas fa-edit"></i> Modifier
+                                            </a>
+                                            <form action="{{ path('app_traitement_medical_delete', {'id': traitement_medical.id}) }}" method="post" style="display: inline;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ traitement_medical.id) }}">
+                                                <button class="btn btn-danger" type="submit" title="Supprimer">
+                                                    <i class="fas fa-times"></i> Supprimer
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6">Aucun traitement trouvé</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/main.js') }}"></script>
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var table = $('#dataTable').DataTable();
+            });
+        </script>
+    {% endblock %}
+</body>
+</html>
