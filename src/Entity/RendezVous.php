@@ -28,11 +28,11 @@ class RendezVous
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le nom du médecin ne peut pas être vide.")]
  #[Assert\Length(
-              min: 2,
-              max: 255,
-              minMessage: "Le nom du médecin doit contenir au moins {{ limit }} caractères.",
-              maxMessage: "Le nom du médecin ne peut pas dépasser {{ limit }} caractères."
-          )]
+                       min: 2,
+                       max: 255,
+                       minMessage: "Le nom du médecin doit contenir au moins {{ limit }} caractères.",
+                       maxMessage: "Le nom du médecin ne peut pas dépasser {{ limit }} caractères."
+                   )]
     private ?string $NomMedecin = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE , nullable: true)]
@@ -58,6 +58,9 @@ class RendezVous
 
     #[ORM\ManyToOne(inversedBy: 'rendezVouses')]
     private ?User $relation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rendezVouses')]
+    private ?User $RelationMedecin = null;
 
     public function getId(): ?int
     {
@@ -152,6 +155,18 @@ class RendezVous
     public function setRelation(?User $relation): static
     {
         $this->relation = $relation;
+
+        return $this;
+    }
+
+    public function getRelationMedecin(): ?User
+    {
+        return $this->RelationMedecin;
+    }
+
+    public function setRelationMedecin(?User $RelationMedecin): static
+    {
+        $this->RelationMedecin = $RelationMedecin;
 
         return $this;
     }

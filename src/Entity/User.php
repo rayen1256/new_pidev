@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -75,6 +77,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $numeroProfessionnel = null;
+
+    /**
+     * @var Collection<int, RendezVous>
+     */
+    #[ORM\OneToMany(targetEntity: RendezVous::class, mappedBy: 'RelationMedecin')]
+    private Collection $rendezVouses;
+
+    public function __construct()
+    {
+        $this->rendezVouses = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -322,6 +335,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNumeroProfessionnel(?string $numeroProfessionnel): static
     {
         $this->numeroProfessionnel = $numeroProfessionnel;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RendezVous>
+     */
+    public function getRendezVouses(): Collection
+    {
+        return $this->rendezVouses;
+    }
+
+    public function addRendezVouse(RendezVous $rendezVouse): static
+    {
+        if (!$this->rendezVouses->contains($rendezVouse)) {
+            $this->rendezVouses->add($rendezVouse);
+            $rendezVouse->setRelationMedecin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRendezVouse(RendezVous $rendezVouse): static
+    {
+        if ($this->rendezVouses->removeElement($rendezVouse)) {
+            // set the owning side to null (unless already changed)
+            if ($rendezVouse->getRelationMedecin() === $this) {
+                $rendezVouse->setRelationMedecin(null);
+            }
+        }
+
         return $this;
     }
 }

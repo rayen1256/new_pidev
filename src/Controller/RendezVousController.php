@@ -46,6 +46,7 @@ public function indext(RendezVousRepository $rendezVousRepository): Response
 
     // Filtrer les rendez-vous pour ce médecin
     $rendezVousList = $rendezVousRepository->findBy(['relation' => $user]);
+    $rendezVousList = $rendezVousRepository->findBy(['RelationMedecin' => $user]);
 
     return $this->render('rendez_vous/ListRendezVousCoteMedecin.html.twig', [
         'rendez_vouses' => $rendezVousList,
@@ -109,6 +110,7 @@ public function indexx(RendezVousRepository $rendezVousRepository): Response
 
     if ($form->isSubmitted() && $form->isValid()) {
         $rendezVou->setRelation($this->getUser());
+        $rendezVou->setRelationMedecin($this->getUser());
         
         $entityManager->persist($rendezVou);
         $entityManager->flush();
